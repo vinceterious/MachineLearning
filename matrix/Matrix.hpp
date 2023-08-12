@@ -243,6 +243,26 @@ public:
         return matResult;
     }
 
+    Matrix<Type,M,N> minMaxNormalisationByColumn()
+    {
+        Matrix<Type,M,N> matResult{};
+        for(std::size_t y{0} ; y < N ; y++)
+        {
+            auto min{0.0};
+            auto max{0.0};
+            for(std::size_t x{0} ; x < M ; x++)
+            {
+                min = std::min(static_cast<Type>(min),at(x,y));
+                max = std::max(static_cast<Type>(max),at(x,y));
+            }
+            for(std::size_t x{0} ; x < M ; x++)
+            {
+                matResult.access(x,y) = (at(x,y) - min) / (max - min);
+            }
+        }
+        return matResult;
+    }
+
     Type moyenne()
     {
         Type res{sum()};

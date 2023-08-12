@@ -251,6 +251,23 @@ TEST(TestMatrix, decompositionLU)
     std::cout << "Mat LU:\n" << L.multiplication<M1>(U) << "\n";
 }
 
+TEST(TestMatrix, minMaxNormalisation) 
+{
+    constexpr std::size_t M1{3};
+    using Mat = Matrix<double,M1,M1>;
+    Mat A{{ Mat::Row{2,-1,0},  Mat::Row{-1,2,-1},  Mat::Row{0,-1,2} }};
+    auto ANorma = A.minMaxNormalisationByColumn();
+    for( std::size_t i{0}; i < M1 ; ++i )
+    {
+        for( std::size_t j{0}; j < M1 ; ++j )
+        {
+            ASSERT_TRUE(ANorma.at(i,j) <= 1);
+            ASSERT_TRUE(ANorma.at(i,j) >= 0);
+        }
+    }
+    std::cout << ANorma << std::endl;
+}
+
 TEST(TestMatrix, TestSolveLinearEquation) 
 {
 
